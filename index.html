@@ -1,23 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>MPS Project Status Dashboard</title></head>
+<body>
 <script src="https://js.zohostatic.com/creator/widgets/version/2.0/widgetsdk-min.js"></script><style>#d *,#d *::before,#d *::after{box-sizing:border-box;margin:0;padding:0}#d{--bd:#1a2744;--bm:#1e3a6e;--ba:#2e6fc4;--bl:#e8f0fb;--tp:#1c2533;--tm:#5a6478;--br:#d5dce8;--wh:#ffffff;--r:8px;--so:#3b82f6;--si:#f59e0b;--sv:#8b5cf6;--sc:#10b981;--sh:#ef4444;font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4fa;color:var(--tp)}#d header{background:linear-gradient(135deg,var(--bd) 0%,var(--bm) 100%);color:var(--wh);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,.25)}#d .hl{display:flex;align-items:center;gap:12px}#d .lm{width:40px;height:40px;background:var(--ba);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--wh);flex-shrink:0}#d .ht h1{font-size:1.1rem;font-weight:700}#d .ht p{font-size:.72rem;opacity:.75;margin-top:1px}#d .hr{display:flex;flex-direction:column;align-items:flex-end;gap:3px}#d .ri{font-size:.7rem;opacity:.8}#d #cr{display:flex;align-items:center;gap:6px}#d #ct{font-size:.75rem;opacity:.85}#d .rs{width:32px;height:32px;transform:rotate(-90deg)}#d .rb{fill:none;stroke:rgba(255,255,255,.2);stroke-width:3}#d .rf{fill:none;stroke:#7dd3fc;stroke-width:3;stroke-linecap:round;stroke-dasharray:94.2;transition:stroke-dashoffset .9s linear}#d .tb{background:var(--wh);border-bottom:1px solid var(--br);padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}#d .tg{display:flex;align-items:center;gap:6px}#d .tb label{font-size:.75rem;font-weight:600;color:var(--tm);white-space:nowrap}#d .tb input,#d .tb select{border:1px solid var(--br);border-radius:5px;padding:5px 8px;font-size:.78rem;color:var(--tp);background:var(--wh);outline:none}#d .tb input{width:180px}#d #br{margin-left:auto;background:var(--ba);color:var(--wh);border:none;border-radius:5px;padding:6px 12px;font-size:.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}#d #br:hover{background:var(--bm)}#d #br svg{width:12px;height:12px}#d .ss{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;padding:16px 20px 4px}#d .sc{background:var(--wh);border:1px solid var(--br);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:3px;box-shadow:0 1px 4px rgba(0,0,0,.06)}#d .sl{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--tm)}#d .sv{font-size:1.7rem;font-weight:700;color:var(--tp);line-height:1}#d .su{font-size:.7rem;color:var(--tm)}#d .mc{padding:16px 20px 32px}#d .tc{background:var(--wh);border:1px solid var(--br);border-radius:var(--r);box-shadow:0 1px 6px rgba(0,0,0,.07);overflow:hidden}#d .tch{padding:12px 16px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}#d .tch h2{font-size:.88rem;font-weight:700}#d #pcl{font-size:.74rem;color:var(--tm)}#d .tw{overflow-x:auto}#d table{width:100%;border-collapse:collapse;font-size:.8rem}#d thead th{background:var(--bl);color:var(--bm);font-weight:700;text-align:left;padding:9px 14px;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;border-bottom:2px solid var(--ba);cursor:pointer;user-select:none}#d thead th:hover{background:#d0dcf0}#d thead th .sa{margin-left:3px;opacity:.5}#d thead th.sorted .sa{opacity:1}#d tbody tr{border-bottom:1px solid var(--br);transition:background .12s}#d tbody tr:hover{background:#f6f9ff}#d tbody tr:last-child{border-bottom:none}#d tbody td{padding:10px 14px;vertical-align:middle}#d .pn{font-weight:600;color:var(--bm)}#d .pi{font-size:.68rem;color:var(--tm);margin-top:2px}#d .tn{font-weight:500}#d .ts{font-size:.68rem;color:var(--tm);font-weight:400;margin-top:1px}#d .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:.7rem;font-weight:600;white-space:nowrap}#d .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.8;flex-shrink:0}#d .bo{background:#eff6ff;color:var(--so)}#d .bi{background:#fffbeb;color:var(--si)}#d .bv{background:#f5f3ff;color:var(--sv)}#d .bc{background:#ecfdf5;color:var(--sc)}#d .bh{background:#fef2f2;color:var(--sh)}#d .bd2{background:#f3f4f6;color:#6b7280}#d .ut{font-size:.72rem;color:var(--tm);white-space:nowrap}#d .sr td{padding:40px 20px;text-align:center;color:var(--tm)}#d .sp{width:32px;height:32px;border:3px solid var(--br);border-top-color:var(--ba);border-radius:50%;animation:mspin .8s linear infinite;margin:0 auto 10px}@keyframes mspin{to{transform:rotate(360deg)}}#d .si2{font-size:2rem;margin-bottom:6px}#d .sm{font-size:.88rem;font-weight:600;color:var(--tp)}#d .ss2{font-size:.75rem;margin-top:3px}#d .fb{padding:0 20px 24px;font-size:.72rem;color:var(--tm);display:flex;align-items:center;gap:5px}#d #lu{font-weight:600;color:var(--tp)}</style>
-<div id="d"><header><div class="hl"><div class="lm">MPS</div><div class="ht"><h1>Project Status Dashboard</h1><p>MPS Acoustics — Live Order Tracking</p></div></div><div class="hr"><span class="ri">Auto-refreshing every 5 min</span><div id="cr"><span id="ct">5:00</span><svg class="rs" viewBox="0 0 36 36"><circle class="rb" cx="18" cy="18" r="15"/><circle class="rf" id="rf" cx="18" cy="18" r="15" stroke-dashoffset="0"/></svg></div></div></header><div class="tb"><div class="tg"><label>🔍</label><input type="text" id="ms" placeholder="Search projects…"/></div><div class="tg"><label>Status</label><select id="mf"><option value="">All</option><option value="open">Open</option><option value="inprogress">In Progress</option><option value="review">In Review</option><option value="onhold">On Hold</option><option value="complete">Complete</option></select></div><button id="br"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Refresh</button></div><div class="ss"><div class="sc"><span class="sl">Total Open</span><span class="sv" id="st">—</span><span class="su">active</span></div><div class="sc"><span class="sl">In Progress</span><span class="sv" id="sip" style="color:var(--si)">—</span><span class="su">being worked</span></div><div class="sc"><span class="sl">In Review</span><span class="sv" id="sv2" style="color:var(--sv)">—</span><span class="su">awaiting approval</span></div><div class="sc"><span class="sl">On Hold</span><span class="sv" id="sh2" style="color:var(--sh)">—</span><span class="su">blocked</span></div><div class="sc"><span class="sl">Not Started</span><span class="sv" id="so2" style="color:var(--so)">—</span><span class="su">queued</span></div></div><div class="mc"><div class="tc"><div class="tch"><h2>Open Projects &amp; Current Task Status</h2><span id="pcl">Loading…</span></div><div class="tw"><table><thead><tr><th data-col="project" class="sorted">Project / Order <span class="sa">▲</span></th><th data-col="task">Current Task</th><th data-col="status">Status <span class="sa">↕</span></th><th data-col="updated">Updated <span class="sa">↕</span></th></tr></thead><tbody id="tb2"><tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Loading…</div></td></tr></tbody></table></div></div></div><div class="fb">Last refreshed: <span id="lu">—</span></div></div>
+
+<div id="d">
+  <header>
+    <div class="hl">
+      <div class="lm">MPS</div>
+      <div class="ht"><h1>Project Status Dashboard</h1><p>MPS Acoustics — Live Order Tracking</p></div>
+    </div>
+    <div class="hr">
+      <span class="ri">Auto-refreshing every 5 min</span>
+      <div id="cr">
+        <span id="ct">5:00</span>
+        <svg class="rs" viewBox="0 0 36 36"><circle class="rb" cx="18" cy="18" r="15"/><circle class="rf" id="rf" cx="18" cy="18" r="15" stroke-dashoffset="0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <div class="tb">
+    <div class="tg"><label>🔍</label><input type="text" id="ms" placeholder="Search projects…"/></div>
+    <div class="tg">
+      <label>Status</label>
+      <select id="mf">
+        <option value="">All</option>
+        <option value="open">Open</option>
+        <option value="inprogress">In Progress</option>
+        <option value="review">In Review</option>
+        <option value="onhold">On Hold</option>
+        <option value="complete">Complete</option>
+      </select>
+    </div>
+    <button id="br">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Refresh
+    </button>
+  </div>
+
+  <div class="ss">
+    <div class="sc"><span class="sl">Total Open</span><span class="sv" id="st">—</span><span class="su">active</span></div>
+    <div class="sc"><span class="sl">In Progress</span><span class="sv" id="sip" style="color:var(--si)">—</span><span class="su">being worked</span></div>
+    <div class="sc"><span class="sl">In Review</span><span class="sv" id="sv2" style="color:var(--sv)">—</span><span class="su">awaiting approval</span></div>
+    <div class="sc"><span class="sl">On Hold</span><span class="sv" id="sh2" style="color:var(--sh)">—</span><span class="su">blocked</span></div>
+    <div class="sc"><span class="sl">Not Started</span><span class="sv" id="so2" style="color:var(--so)">—</span><span class="su">queued</span></div>
+  </div>
+
+  <div class="mc">
+    <div class="tc">
+      <div class="tch">
+        <h2>Open Projects &amp; Current Task Status</h2>
+        <span id="pcl">Loading…</span>
+      </div>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr>
+              <th data-col="project" class="sorted">Project / Order <span class="sa">▲</span></th>
+              <th data-col="task">Current Task</th>
+              <th data-col="status">Status <span class="sa">↕</span></th>
+              <th data-col="updated">Updated <span class="sa">↕</span></th>
+            </tr>
+          </thead>
+          <tbody id="tb2">
+            <tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Loading…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="fb">Last refreshed: <span id="lu">—</span></div>
+</div>
+
 <script>
-(function(){var A="mps-production-tracker",RS=300,rows=[],filt=[],sc='project',sd='asc',cd=RS,ti=null,rf=document.getElementById('rf'),C=94.2;
-function ns(r){if(!r)return'open';var s=r.toLowerCase().replace(/[\s_-]/g,'');if(s.indexOf('progress')>-1||s==='wip'||s==='active')return'inprogress';if(s.indexOf('review')>-1||s.indexOf('qc')>-1||s.indexOf('inspect')>-1)return'review';if(s.indexOf('hold')>-1||s.indexOf('block')>-1||s.indexOf('wait')>-1)return'onhold';if(s.indexOf('done')>-1||s.indexOf('complete')>-1||s.indexOf('ship')>-1)return'complete';return'open';}
-function badge(s){var m={open:['bo','Open'],inprogress:['bi','In Progress'],review:['bv','In Review'],complete:['bc','Complete'],onhold:['bh','On Hold']};var p=m[s]||['bd2',s];return'<span class="badge '+p[0]+'">'+p[1]+'</span>';}
-function ago(d){var x=Math.floor((Date.now()-new Date(d))/1000);if(x<60)return x+'s ago';if(x<3600)return Math.floor(x/60)+'m ago';if(x<86400)return Math.floor(x/3600)+'h ago';return new Date(d).toLocaleDateString();}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-var _initCtx=null;function load_data(){return new Promise(function(res,rej){var ctx=_initCtx||{};var token=(ctx.access_token||ctx.accessToken||ctx.token||null);if(token){var base='https://projectsapi.zoho.com/restapi/portal/speechprivacysystems';var hdrs={'Authorization':'Zoho-oauthtoken '+token};fetch(base+'/projects/?status=active',{headers:hdrs}).then(function(r){return r.json();}).then(function(pd){var projs=pd.projects||[];if(!projs.length){res([]);return;}var ptasks=projs.map(function(p){return fetch(base+'/projects/'+p.id_string+'/tasks/',{headers:hdrs}).then(function(r){return r.json();}).then(function(td){var ts=(td.tasks||[]).filter(function(t){return!t.status||!t.status.type||t.status.type!=='closed';});var t=ts[0]||null;var upd=t?(t.last_updated_time||Date.now()):(p.last_updated_time||Date.now());return{projectId:p.id_string||'',projectName:p.name||'(Unnamed)',taskName:t?(t.name||'(No task name)'):'(No open tasks)',taskNote:'',status:ns(t&&t.status&&t.status.name?t.status.name:''),updated:new Date(typeof upd==='number'?upd:parseInt(upd)||Date.parse(upd)||Date.now())};});});return Promise.all(ptasks);}).then(res).catch(rej);}else{var to=setTimeout(function(){rej(new Error('Auth timeout. init() ctx: '+JSON.stringify(ctx)));},8000);ZOHO.CREATOR.UTIL.getAccessToken().then(function(resp){clearTimeout(to);var tk=resp&&resp.access_token?resp.access_token:(typeof resp==='string'?resp:null);if(!tk){rej(new Error('No token in getAccessToken response: '+JSON.stringify(resp)));return;}var base='https://projectsapi.zoho.com/restapi/portal/speechprivacysystems';var hdrs={'Authorization':'Zoho-oauthtoken '+tk};fetch(base+'/projects/?status=active',{headers:hdrs}).then(function(r){return r.json();}).then(function(pd){var projs=pd.projects||[];if(!projs.length){res([]);return;}var ptasks=projs.map(function(p){return fetch(base+'/projects/'+p.id_string+'/tasks/',{headers:hdrs}).then(function(r){return r.json();}).then(function(td){var ts=(td.tasks||[]).filter(function(t){return!t.status||!t.status.type||t.status.type!=='closed';});var t=ts[0]||null;var upd=t?(t.last_updated_time||Date.now()):(p.last_updated_time||Date.now());return{projectId:p.id_string||'',projectName:p.name||'(Unnamed)',taskName:t?(t.name||'(No task name)'):'(No open tasks)',taskNote:'',status:ns(t&&t.status&&t.status.name?t.status.name:''),updated:new Date(typeof upd==='number'?upd:parseInt(upd)||Date.parse(upd)||Date.now())};});});return Promise.all(ptasks);}).then(res).catch(rej);}).catch(function(e){clearTimeout(to);rej(new Error('getAccessToken failed: '+(e&&e.message?e.message:JSON.stringify(e))));});}});}
-function srt(r){return r.slice().sort(function(a,b){var va,vb;if(sc==='project'){va=a.projectName;vb=b.projectName;}else if(sc==='task'){va=a.taskName;vb=b.taskName;}else if(sc==='status'){va=a.status;vb=b.status;}else{va=new Date(a.updated);vb=new Date(b.updated);}if(va<vb)return sd==='asc'?-1:1;if(va>vb)return sd==='asc'?1:-1;return 0;});}
-function filter(){var s=document.getElementById('ms').value.trim().toLowerCase(),st=document.getElementById('mf').value;filt=rows.filter(function(r){return(!s||r.projectName.toLowerCase().indexOf(s)>-1||r.taskName.toLowerCase().indexOf(s)>-1||r.projectId.toLowerCase().indexOf(s)>-1)&&(!st||r.status===st);});render();stats();}
-function render(){var tb=document.getElementById('tb2'),sr=srt(filt);document.getElementById('pcl').textContent=sr.length+' project'+(sr.length!==1?'s':'');if(!sr.length){tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">📭</div><div class="sm">No matches</div></td></tr>';return;}tb.innerHTML=sr.map(function(r){return'<tr><td><div class="pn">'+esc(r.projectName)+'</div><div class="pi">'+esc(r.projectId)+'</div></td><td><div class="tn">'+esc(r.taskName)+(r.taskNote?'<div class="ts">'+esc(r.taskNote)+'</div>':'')+'</div></td><td>'+badge(r.status)+'</td><td><span class="ut">'+ago(r.updated)+'</span></td></tr>';}).join('');}
-function stats(){function c(s){return rows.filter(function(r){return r.status===s;}).length;}document.getElementById('st').textContent=rows.length;document.getElementById('sip').textContent=c('inprogress');document.getElementById('sv2').textContent=c('review');document.getElementById('sh2').textContent=c('onhold');document.getElementById('so2').textContent=c('open');}
-function load(){var tb=document.getElementById('tb2');tb.innerHTML='<tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Fetching from Zoho…</div></td></tr>';load_data().then(function(r){rows=r;filter();document.getElementById('lu').textContent=new Date().toLocaleTimeString();}).catch(function(e){tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">⚠️</div><div class="sm">Could not load data</div><div class="ss2">'+esc(e.message)+'</div></td></tr>';document.getElementById('pcl').textContent='Error';});}
-function tick(){var m=Math.floor(cd/60),s=String(cd%60);if(s.length<2)s='0'+s;document.getElementById('ct').textContent=m+':'+s;rf.style.strokeDashoffset=C*(1-cd/RS);if(cd<=0){cd=RS;load();}else{cd--;}}
-function start(){if(ti)clearInterval(ti);cd=RS;ti=setInterval(tick,1000);tick();}
-var hs=document.querySelectorAll('#d thead th[data-col]');for(var i=0;i<hs.length;i++){hs[i].addEventListener('click',(function(h){return function(){var col=h.getAttribute('data-col');if(sc===col){sd=sd==='asc'?'desc':'asc';}else{sc=col;sd='asc';}var all=document.querySelectorAll('#d thead th');for(var j=0;j<all.length;j++){all[j].classList.remove('sorted');var a=all[j].querySelector('.sa');if(a)a.textContent='↕';}h.classList.add('sorted');var ar=h.querySelector('.sa');if(ar)ar.textContent=sd==='asc'?'▲':'▼';render();};})(hs[i]));}
-document.getElementById('ms').addEventListener('input',filter);
-document.getElementById('mf').addEventListener('change',filter);
-document.getElementById('br').addEventListener('click',function(){start();load();});
-ZOHO.CREATOR.init().then(function(ctx){_initCtx=ctx||{};start();load();}).catch(function(e){document.getElementById('tb2').innerHTML='<tr class="sr"><td colspan="4"><div class="si2">⚠️</div><div class="sm">Must run inside Zoho Creator</div><div class="ss2">'+(e&&e.message?e.message:'')+'</div></td></tr>';});
+(function(){
+  var RS=300, rows=[], filt=[], sc='project', sd='asc', cd=RS, ti=null;
+  var rf=document.getElementById('rf'), C=94.2;
+  var _initCtx=null;
+
+  function ns(r){
+    if(!r) return 'open';
+    var s=r.toLowerCase().replace(/[\s_-]/g,'');
+    if(s.indexOf('progress')>-1||s==='wip'||s==='active') return 'inprogress';
+    if(s.indexOf('review')>-1||s.indexOf('qc')>-1||s.indexOf('inspect')>-1) return 'review';
+    if(s.indexOf('hold')>-1||s.indexOf('block')>-1||s.indexOf('wait')>-1) return 'onhold';
+    if(s.indexOf('done')>-1||s.indexOf('complete')>-1||s.indexOf('ship')>-1) return 'complete';
+    return 'open';
+  }
+  function badge(s){
+    var m={open:['bo','Open'],inprogress:['bi','In Progress'],review:['bv','In Review'],complete:['bc','Complete'],onhold:['bh','On Hold']};
+    var p=m[s]||['bd2',s];
+    return '<span class="badge '+p[0]+'">'+p[1]+'</span>';
+  }
+  function ago(d){
+    var x=Math.floor((Date.now()-new Date(d))/1000);
+    if(x<60) return x+'s ago';
+    if(x<3600) return Math.floor(x/60)+'m ago';
+    if(x<86400) return Math.floor(x/3600)+'h ago';
+    return new Date(d).toLocaleDateString();
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function fetchWithToken(token){
+    var hdrs={'Authorization':'Zoho-oauthtoken '+token};
+    return fetch('https://projectsapi.zoho.com/restapi/portals/',{headers:hdrs})
+      .then(function(r){
+        if(!r.ok) throw new Error('Portals API returned '+r.status);
+        return r.json();
+      })
+      .then(function(pd){
+        var portals=pd.portals||[];
+        if(!portals.length) throw new Error('No Zoho Projects portals found for this account.');
+        var portalId=portals[0].id_string;
+        var base='https://projectsapi.zoho.com/restapi/portal/'+portalId;
+        return fetch(base+'/projects/?status=active',{headers:hdrs})
+          .then(function(r){
+            if(!r.ok) throw new Error('Projects API returned '+r.status);
+            return r.json();
+          })
+          .then(function(pd2){
+            var projs=pd2.projects||[];
+            if(!projs.length) return [];
+            var ptasks=projs.map(function(p){
+              return fetch(base+'/projects/'+p.id_string+'/tasks/',{headers:hdrs})
+                .then(function(r){ return r.json(); })
+                .then(function(td){
+                  var ts=(td.tasks||[]).filter(function(t){
+                    return !t.status||!t.status.type||t.status.type!=='closed';
+                  });
+                  var t=ts[0]||null;
+                  var upd=t?(t.last_updated_time||Date.now()):(p.last_updated_time||Date.now());
+                  return {
+                    projectId:  p.id_string||'',
+                    projectName:p.name||'(Unnamed)',
+                    taskName:   t?(t.name||'(No task name)'):'(No open tasks)',
+                    taskNote:   '',
+                    status:     ns(t&&t.status&&t.status.name?t.status.name:''),
+                    updated:    new Date(typeof upd==='number'?upd:parseInt(upd)||Date.parse(upd)||Date.now())
+                  };
+                });
+            });
+            return Promise.all(ptasks);
+          });
+      });
+  }
+
+  function load_data(){
+    return new Promise(function(res,rej){
+      var ctx=_initCtx||{};
+      var token=ctx.access_token||ctx.accessToken||ctx.token||null;
+      if(token){ fetchWithToken(token).then(res).catch(rej); return; }
+      var to=setTimeout(function(){
+        rej(new Error('Auth timeout — getAccessToken did not respond within 8s.'));
+      },8000);
+      ZOHO.CREATOR.UTIL.getAccessToken()
+        .then(function(resp){
+          clearTimeout(to);
+          var tk=resp&&resp.access_token?resp.access_token:(typeof resp==='string'?resp:null);
+          if(!tk){ rej(new Error('getAccessToken returned no token: '+JSON.stringify(resp))); return; }
+          fetchWithToken(tk).then(res).catch(rej);
+        })
+        .catch(function(e){
+          clearTimeout(to);
+          rej(new Error('getAccessToken failed: '+(e&&e.message?e.message:JSON.stringify(e))));
+        });
+    });
+  }
+
+  function srt(r){
+    return r.slice().sort(function(a,b){
+      var va,vb;
+      if(sc==='project'){va=a.projectName;vb=b.projectName;}
+      else if(sc==='task'){va=a.taskName;vb=b.taskName;}
+      else if(sc==='status'){va=a.status;vb=b.status;}
+      else{va=new Date(a.updated);vb=new Date(b.updated);}
+      if(va<vb) return sd==='asc'?-1:1;
+      if(va>vb) return sd==='asc'?1:-1;
+      return 0;
+    });
+  }
+  function filter(){
+    var s=document.getElementById('ms').value.trim().toLowerCase();
+    var st=document.getElementById('mf').value;
+    filt=rows.filter(function(r){
+      return(!s||r.projectName.toLowerCase().indexOf(s)>-1||r.taskName.toLowerCase().indexOf(s)>-1||r.projectId.toLowerCase().indexOf(s)>-1)&&(!st||r.status===st);
+    });
+    render(); stats();
+  }
+  function render(){
+    var tb=document.getElementById('tb2'), sr=srt(filt);
+    document.getElementById('pcl').textContent=sr.length+' project'+(sr.length!==1?'s':'');
+    if(!sr.length){
+      tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">📭</div><div class="sm">No matches</div></td></tr>';
+      return;
+    }
+    tb.innerHTML=sr.map(function(r){
+      return '<tr>'
+        +'<td><div class="pn">'+esc(r.projectName)+'</div><div class="pi">'+esc(r.projectId)+'</div></td>'
+        +'<td><div class="tn">'+esc(r.taskName)+(r.taskNote?'<div class="ts">'+esc(r.taskNote)+'</div>':'')+'</div></td>'
+        +'<td>'+badge(r.status)+'</td>'
+        +'<td><span class="ut">'+ago(r.updated)+'</span></td>'
+        +'</tr>';
+    }).join('');
+  }
+  function stats(){
+    function c(s){ return rows.filter(function(r){ return r.status===s; }).length; }
+    document.getElementById('st').textContent=rows.length;
+    document.getElementById('sip').textContent=c('inprogress');
+    document.getElementById('sv2').textContent=c('review');
+    document.getElementById('sh2').textContent=c('onhold');
+    document.getElementById('so2').textContent=c('open');
+  }
+
+  function load(){
+    var tb=document.getElementById('tb2');
+    tb.innerHTML='<tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Fetching from Zoho Projects…</div></td></tr>';
+    document.getElementById('pcl').textContent='Loading…';
+    load_data()
+      .then(function(r){ rows=r; filter(); document.getElementById('lu').textContent=new Date().toLocaleTimeString(); })
+      .catch(function(e){
+        tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">⚠️</div><div class="sm">Could not load data</div><div class="ss2">'+esc(e.message)+'</div></td></tr>';
+        document.getElementById('pcl').textContent='Error';
+      });
+  }
+
+  function tick(){
+    var m=Math.floor(cd/60), s=String(cd%60);
+    if(s.length<2) s='0'+s;
+    document.getElementById('ct').textContent=m+':'+s;
+    rf.style.strokeDashoffset=C*(1-cd/RS);
+    if(cd<=0){ cd=RS; load(); } else { cd--; }
+  }
+  function start(){ if(ti) clearInterval(ti); cd=RS; ti=setInterval(tick,1000); tick(); }
+
+  var hs=document.querySelectorAll('#d thead th[data-col]');
+  for(var i=0;i<hs.length;i++){
+    hs[i].addEventListener('click',(function(h){
+      return function(){
+        var col=h.getAttribute('data-col');
+        if(sc===col){ sd=sd==='asc'?'desc':'asc'; } else { sc=col; sd='asc'; }
+        var all=document.querySelectorAll('#d thead th');
+        for(var j=0;j<all.length;j++){
+          all[j].classList.remove('sorted');
+          var a=all[j].querySelector('.sa');
+          if(a) a.textContent='↕';
+        }
+        h.classList.add('sorted');
+        var ar=h.querySelector('.sa');
+        if(ar) ar.textContent=sd==='asc'?'▲':'▼';
+        render();
+      };
+    })(hs[i]));
+  }
+
+  document.getElementById('ms').addEventListener('input',filter);
+  document.getElementById('mf').addEventListener('change',filter);
+  document.getElementById('br').addEventListener('click',function(){ cd=RS; load(); });
+
+  ZOHO.CREATOR.init()
+    .then(function(ctx){ _initCtx=ctx||{}; start(); load(); })
+    .catch(function(e){
+      document.getElementById('tb2').innerHTML='<tr class="sr"><td colspan="4"><div class="si2">⚠️</div><div class="sm">Must run inside Zoho Creator</div><div class="ss2">'+(e&&e.message?e.message:'')+'</div></td></tr>';
+    });
 })();
 </script>
+</body>
+</html>
