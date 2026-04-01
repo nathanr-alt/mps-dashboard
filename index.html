@@ -79,6 +79,7 @@
   var rf=document.getElementById('rf'), C=94.2;
   var _initCtx=null;
 
+  /* ── helpers ── */
   function ns(r){
     if(!r) return 'open';
     var s=r.toLowerCase().replace(/[\s_-]/g,'');
@@ -102,33 +103,40 @@
   }
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  function fetchWithToken(token){
-    var hdrs={'Authorization':'Zoho-oauthtoken '+token};
-    return fetch('https://projectsapi.zoho.com/restapi/portals/',{headers:hdrs})
-      .then(function(r){
-        if(!r.ok) throw new Error('Portals API returned '+r.status);
-        return r.json();
-      })
+  /* ── makeRequest wrapper (SDK v2 — uses configured Connection, no token needed) ── */
+  function zreq(url){
+    return ZOHO.CREATOR.API.makeRequest({
+      method:'GET',
+      url:url,
+      connName:'zoho_projects_connection'
+    }).then(function(resp){
+      var d=resp&&(resp.data!==undefined?resp.data:resp);
+      if(typeof d==='string'){try{d=JSON.parse(d);}catch(e){}}
+      return d;
+    });
+  }
+
+  /* ── load_data: call Zoho Projects API via Connection ── */
+  function load_data(){
+    // Step 1: discover portals dynamically
+    return zreq('https://projectsapi.zoho.com/restapi/portals/')
       .then(function(pd){
         var portals=pd.portals||[];
-        if(!portals.length) throw new Error('No Zoho Projects portals found for this account.');
+        if(!portals.length) throw new Error('No Zoho Projects portals found.');
         var portalId=portals[0].id_string;
         var base='https://projectsapi.zoho.com/restapi/portal/'+portalId;
-        return fetch(base+'/projects/?status=active',{headers:hdrs})
-          .then(function(r){
-            if(!r.ok) throw new Error('Projects API returned '+r.status);
-            return r.json();
-          })
+
+        // Step 2: fetch active projects
+        return zreq(base+'/projects/?status=active')
           .then(function(pd2){
             var projs=pd2.projects||[];
             if(!projs.length) return [];
+
+            // Step 3: for each project, fetch open tasks in parallel
             var ptasks=projs.map(function(p){
-              return fetch(base+'/projects/'+p.id_string+'/tasks/',{headers:hdrs})
-                .then(function(r){ return r.json(); })
+              return zreq(base+'/projects/'+p.id_string+'/tasks/?status=open&sort_column=last_updated_time&sort_order=desc&range=1')
                 .then(function(td){
-                  var ts=(td.tasks||[]).filter(function(t){
-                    return !t.status||!t.status.type||t.status.type!=='closed';
-                  });
+                  var ts=td.tasks||[];
                   var t=ts[0]||null;
                   var upd=t?(t.last_updated_time||Date.now()):(p.last_updated_time||Date.now());
                   return {
@@ -146,28 +154,7 @@
       });
   }
 
-  function load_data(){
-    return new Promise(function(res,rej){
-      var ctx=_initCtx||{};
-      var token=ctx.access_token||ctx.accessToken||ctx.token||null;
-      if(token){ fetchWithToken(token).then(res).catch(rej); return; }
-      var to=setTimeout(function(){
-        rej(new Error('Auth timeout — getAccessToken did not respond within 8s.'));
-      },8000);
-      ZOHO.CREATOR.UTIL.getAccessToken()
-        .then(function(resp){
-          clearTimeout(to);
-          var tk=resp&&resp.access_token?resp.access_token:(typeof resp==='string'?resp:null);
-          if(!tk){ rej(new Error('getAccessToken returned no token: '+JSON.stringify(resp))); return; }
-          fetchWithToken(tk).then(res).catch(rej);
-        })
-        .catch(function(e){
-          clearTimeout(to);
-          rej(new Error('getAccessToken failed: '+(e&&e.message?e.message:JSON.stringify(e))));
-        });
-    });
-  }
-
+  /* ── sort / filter / render ── */
   function srt(r){
     return r.slice().sort(function(a,b){
       var va,vb;
@@ -213,6 +200,7 @@
     document.getElementById('so2').textContent=c('open');
   }
 
+  /* ── load orchestration ── */
   function load(){
     var tb=document.getElementById('tb2');
     tb.innerHTML='<tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Fetching from Zoho Projects…</div></td></tr>';
@@ -225,6 +213,7 @@
       });
   }
 
+  /* ── countdown timer ── */
   function tick(){
     var m=Math.floor(cd/60), s=String(cd%60);
     if(s.length<2) s='0'+s;
@@ -234,6 +223,7 @@
   }
   function start(){ if(ti) clearInterval(ti); cd=RS; ti=setInterval(tick,1000); tick(); }
 
+  /* ── column sort listeners ── */
   var hs=document.querySelectorAll('#d thead th[data-col]');
   for(var i=0;i<hs.length;i++){
     hs[i].addEventListener('click',(function(h){
@@ -258,6 +248,7 @@
   document.getElementById('mf').addEventListener('change',filter);
   document.getElementById('br').addEventListener('click',function(){ cd=RS; load(); });
 
+  /* ── bootstrap ── */
   ZOHO.CREATOR.init()
     .then(function(ctx){ _initCtx=ctx||{}; start(); load(); })
     .catch(function(e){
