@@ -64,36 +64,61 @@
   function mkrow(row){var u=row.updated||Date.now();return{projectId:row.projectId||'',projectName:row.projectName||'(Unnamed)',taskName:row.taskName||'(No open tasks)',taskNote:row.taskNote||'',status:ns(row.status||''),updated:new Date(typeof u==='number'?u:parseInt(u)||Date.parse(u)||Date.now())};}
 
   function load_data(){
-    // Approach A: Creator REST API for function (session-auth, no external connection)
-    var fnUrl='https://creator.zoho.com/api/v2/frankbarnett1/mps-production-tracker/functions/mps_get_project_status/actions/execute';
-    return timed(ZOHO.CREATOR.API.makeRequest({method:'GET',url:fnUrl}),12000,'A: Creator fn API timed out')
-      .then(function(r){var d=parse(r);if(d&&d.rows)return d.rows.map(mkrow);throw new Error('A: no rows. Got: '+JSON.stringify(d).slice(0,150));})
-      .catch(function(e1){
-        // Approach B: Projects API via Connection
-        return timed(ZOHO.CREATOR.API.makeRequest({method:'GET',url:'https://projectsapi.zoho.com/restapi/portals/',connName:'zoho_projects_connection'}),12000,'B: connection timed out')
-          .then(function(r){
-            var d=parse(r);var portals=(d&&d.portals)||[];
-            if(!portals.length)throw new Error('B: no portals');
-            var base='https://projectsapi.zoho.com/restapi/portal/'+portals[0].id_string;
-            return timed(ZOHO.CREATOR.API.makeRequest({method:'GET',url:base+'/projects/?status=active',connName:'zoho_projects_connection'}),12000,'B: projects timed out')
-              .then(function(r2){
+    return Promise.resolve().then(function(){
+      var ZC=window.ZOHO&&window.ZOHO.CREATOR;
+      var api=ZC&&ZC.API;
+      if(!api||typeof api.makeRequest!=='function'){
+        var zcK=ZC?Object.keys(ZC).join(','):'ZC_UNDEF';
+        var aK=api?Object.keys(api).join(','):'API_UNDEF';
+        throw new Error('makeRequest not available. ZC:['+zcK+'] API:['+aK+']');
+      }
+      function mkrow(row){var u=row.updated||Date.now();return{projectId:row.projectId||'',projectName:row.projectName||'(Unnamed)',taskName:row.taskName||'(No open tasks)',taskNote:row.taskNote||'',status:ns(row.status||''),updated:new Date(typeof u==='number'?u:parseInt(u)||Date.parse(u)||Date.now())};}
+
+      // Approach A: Creator REST API for Deluge function
+      var fnUrl='https://creator.zoho.com/api/v2/frankbarnett1/mps-production-tracker/functions/mps_get_project_status/actions/execute';
+      var pA;try{pA=api.makeRequest({method:'GET',url:fnUrl});}catch(ex){pA=Promise.reject(new Error('A-sync: '+ex.message));}
+      return timed(pA,5000,'A: timed out 5s')
+        .then(function(r){var d=parse(r);if(d&&d.rows)return d.rows.map(mkrow);throw new Error('A: no rows. Got:'+JSON.stringify(d).slice(0,80));})
+        .catch(function(e1){
+          // Approach B: Projects API via Connection
+          var pB;try{pB=api.makeRequest({method:'GET',url:'https://projectsapi.zoho.com/restapi/portals/',connName:'zoho_projects_connection'});}catch(ex){pB=Promise.reject(new Error('B-sync: '+ex.message));}
+          return timed(pB,5000,'B: timed out 5s')
+            .then(function(r){
+              var d=parse(r);var portals=(d&&d.portals)||[];
+              if(!portals.length)throw new Error('B: no portals. Got:'+JSON.stringify(d).slice(0,80));
+              var base='https://projectsapi.zoho.com/restapi/portal/'+portals[0].id_string;
+              var pP;try{pP=api.makeRequest({method:'GET',url:base+'/projects/?status=active',connName:'zoho_projects_connection'});}catch(ex){pP=Promise.reject(ex);}
+              return timed(pP,5000,'B: projects timed out').then(function(r2){
                 var projs=(parse(r2)&&parse(r2).projects)||[];
                 if(!projs.length)return [];
                 return Promise.all(projs.map(function(p){
-                  return timed(ZOHO.CREATOR.API.makeRequest({method:'GET',url:base+'/projects/'+p.id_string+'/tasks/?status=open&sort_column=last_updated_time&sort_order=desc&range=1',connName:'zoho_projects_connection'}),12000,'B: tasks timed out')
-                    .then(function(r3){var d3=parse(r3);var t=(d3&&d3.tasks&&d3.tasks[0])||null;var u=t?(t.last_updated_time||Date.now()):(p.last_updated_time||Date.now());return{projectId:p.id_string||'',projectName:p.name||'(Unnamed)',taskName:t?(t.name||''):'(No open tasks)',taskNote:'',status:ns(t&&t.status?t.status.name:''),updated:new Date(typeof u==='number'?u:parseInt(u)||Date.parse(u)||Date.now())};});
+                  var pT;try{pT=api.makeRequest({method:'GET',url:base+'/projects/'+p.id_string+'/tasks/?status=open&sort_column=last_updated_time&sort_order=desc&range=1',connName:'zoho_projects_connection'});}catch(ex){pT=Promise.reject(ex);}
+                  return timed(pT,5000,'B: tasks timed out').then(function(r3){var d3=parse(r3);var t=(d3&&d3.tasks&&d3.tasks[0])||null;var u=t?(t.last_updated_time||Date.now()):(p.last_updated_time||Date.now());return{projectId:p.id_string||'',projectName:p.name||'(Unnamed)',taskName:t?(t.name||''):'(No open tasks)',taskNote:'',status:ns(t&&t.status?t.status.name:''),updated:new Date(typeof u==='number'?u:parseInt(u)||Date.parse(u)||Date.now())};});
                 }));
               });
-          })
-          .catch(function(e2){throw new Error('A: '+e1.message+'\nB: '+e2.message);});
-      });
+            })
+            .catch(function(e2){throw new Error('A:'+e1.message+' | B:'+e2.message);});
+        });
+    });
   }
 
+  
   function srt(r){return r.slice().sort(function(a,b){var va,vb;if(sc==='project'){va=a.projectName;vb=b.projectName;}else if(sc==='task'){va=a.taskName;vb=b.taskName;}else if(sc==='status'){va=a.status;vb=b.status;}else{va=new Date(a.updated);vb=new Date(b.updated);}if(va<vb)return sd==='asc'?-1:1;if(va>vb)return sd==='asc'?1:-1;return 0;});}
   function filter(){var s=document.getElementById('ms').value.trim().toLowerCase();var st=document.getElementById('mf').value;filt=rows.filter(function(r){return(!s||r.projectName.toLowerCase().indexOf(s)>-1||r.taskName.toLowerCase().indexOf(s)>-1)&&(!st||r.status===st);});render();stats();}
   function render(){var tb=document.getElementById('tb2'),sr=srt(filt);document.getElementById('pcl').textContent=sr.length+' project'+(sr.length!==1?'s':'');if(!sr.length){tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">📭</div><div class="sm">No matches</div></td></tr>';return;}tb.innerHTML=sr.map(function(r){return'<tr><td><div class="pn">'+esc(r.projectName)+'</div><div class="pi">'+esc(r.projectId)+'</div></td><td><div class="tn">'+esc(r.taskName)+(r.taskNote?'<div class="ts">'+esc(r.taskNote)+'</div>':'')+'</div></td><td>'+badge(r.status)+'</td><td><span class="ut">'+ago(r.updated)+'</span></td></tr>';}).join('');}
   function stats(){function c(s){return rows.filter(function(r){return r.status===s;}).length;}document.getElementById('st').textContent=rows.length;document.getElementById('sip').textContent=c('inprogress');document.getElementById('sv2').textContent=c('review');document.getElementById('sh2').textContent=c('onhold');document.getElementById('so2').textContent=c('open');}
-  function load(){var tb=document.getElementById('tb2');tb.innerHTML='<tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Fetching from Zoho Projects…</div></td></tr>';document.getElementById('pcl').textContent='Loading…';load_data().then(function(r){rows=r;filter();document.getElementById('lu').textContent=new Date().toLocaleTimeString();}).catch(function(e){tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">⚠️</div><div class="sm">Could not load data</div><div class="ss2">'+esc(e.message)+'</div></td></tr>';document.getElementById('pcl').textContent='Error';});}
+  function load(){
+    var tb=document.getElementById('tb2');
+    tb.innerHTML='<tr class="sr"><td colspan="4"><div class="sp"></div><div class="sm">Fetching from Zoho Projects… <span id="ldt" style="font-size:.7rem;opacity:.6"></span></div></td></tr>';
+    document.getElementById('pcl').textContent='Loading…';
+    var elapsed=0; var lt=setInterval(function(){elapsed++;var e=document.getElementById('ldt');if(e)e.textContent='('+elapsed+'s)';},1000);
+    load_data()
+      .then(function(r){ clearInterval(lt); rows=r; filter(); document.getElementById('lu').textContent=new Date().toLocaleTimeString(); })
+      .catch(function(e){ clearInterval(lt);
+        tb.innerHTML='<tr class="sr"><td colspan="4"><div class="si2">⚠️</div><div class="sm">Could not load data</div><div class="ss2" style="white-space:pre-wrap;text-align:left;max-width:800px;margin:0 auto">'+esc(e.message)+'</div></td></tr>';
+        document.getElementById('pcl').textContent='Error';
+      });
+  }
   function tick(){var m=Math.floor(cd/60),s=String(cd%60);if(s.length<2)s='0'+s;document.getElementById('ct').textContent=m+':'+s;rf.style.strokeDashoffset=C*(1-cd/RS);if(cd<=0){cd=RS;load();}else{cd--;}}
   function start(){if(ti)clearInterval(ti);cd=RS;ti=setInterval(tick,1000);tick();}
   var hs=document.querySelectorAll('#d thead th[data-col]');
